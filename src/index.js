@@ -15,11 +15,13 @@ fetch ("https://dog.ceo/api/breeds/list/all")
   .then(res => res.json())
   .then (data => displayBreeds(data));
 
+let dogList = document.getElementById('dog-breeds')
+
 function displayBreeds(data) {
   console.log(data)
   for (el in data.message) {
     let dogBreed = document.createElement('li')
-    let dogList = document.getElementById('dog-breeds')
+
     dogBreed.textContent = el
     dogList.append(dogBreed)
     dogBreed.addEventListener('click', () => {
@@ -28,5 +30,27 @@ function displayBreeds(data) {
   }
 }
 
+const dropdown = document.getElementById('breed-dropdown')
+dropdown.addEventListener('click', filterDogs);
 
-//Challenge 4!
+function filterDogs() {
+  const dropdownPick = document.getElementById('breed-dropdown').value;
+  console.log(dropdownPick);
+  dogList.innerHTML = "";
+  fetch ("https://dog.ceo/api/breeds/list/all")
+  .then(res => res.json())
+  .then (data => displayFilteredBreed(data));
+}
+
+function displayFilteredBreed(data) {
+  console.log(data)
+  for (el in data.message) {
+    let dogBreed = document.createElement('li')
+
+    dogBreed.textContent = el
+    dogList.append(dogBreed)
+    dogBreed.addEventListener('click', () => {
+      dogBreed.style.color = "red"
+    })
+  }
+}
